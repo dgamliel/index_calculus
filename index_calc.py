@@ -12,6 +12,8 @@ def s_set(b):
 ### Input: alpha - int ; s_set - list of prime numbers <= b
 
 def is_smooth(alpha, s_set):             
+    if alpha < 2:
+        return False
 
     factored_dict = factorint(alpha)   #creates a dict of all prime factors as keys and exponents as values
     dict_len = len(factored_dict)   
@@ -31,22 +33,28 @@ def is_smooth(alpha, s_set):
 
 def log_calculator(s_set, p):
     s_cardinality = len(s_set)                            #boundary condition for our loop
+    
+    factored_primes = []
     vector_count = 0
-
     while vector_count != s_cardinality:
         alpha = random.randint(0, p)                      #picks a random alpha to be used as exponent for primitive base
-        
+
         g = 11
         g_to_the_alpha = (g ** alpha) % p
 
         if is_smooth(g_to_the_alpha, s_set):
-            print("alpha is : ", alpha)
+            print ("Smooth g_alpha is :", g_to_the_alpha, "with corresponding alpha value of :", alpha)
+
+            factored_g_alpha = factorint(g_to_the_alpha)  #factors smooth g_alpha into dict, appends to list
+            print ("Factored g_alpha is :", factored_g_alpha, "\n")
+            factored_primes.append(factored_g_alpha)
 
             x_prime_factors = factorint(g_to_the_alpha)   #creates a dict, x_prime_factors, that contains all the prime factors of our smooth g ** a 
-            
             vector_count += 1
+
 
 def index_calculus(s_set, p):
     log_calculator(s_set, p)
+    
 my_set = s_set(13)
 index_calculus(my_set, 31)
