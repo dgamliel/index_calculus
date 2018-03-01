@@ -28,12 +28,26 @@ def is_smooth(alpha, s_set):
 
     return False
 
+### Creates individual rows of matrix, each index represents the coefficient of the DLP of each prime
+
+def matrix_builder(dict_of_factors, s_set):
+    matrix_row = []
+    for prime in s_set:
+        if prime not in dict_of_factors:
+            matrix_row.append(0)
+        else:
+            exponent = dict_of_factors[prime]
+            matrix_row.append(exponent)
+
+    return matrix_row
+
 
 ### Inputs set of primes from 2 to b, and p - prime integer limit for random number generator
 
 def log_calculator(s_set, p):
     s_cardinality = len(s_set)                            #boundary condition for our loop
     
+    matrix = []
     factored_primes = []
     vector_count = 0
     while vector_count != s_cardinality:
@@ -43,13 +57,9 @@ def log_calculator(s_set, p):
         g_to_the_alpha = (g ** alpha) % p
 
         if is_smooth(g_to_the_alpha, s_set):
-            print ("Smooth g_alpha is :", g_to_the_alpha, "with corresponding alpha value of :", alpha)
+            matrix_row = matrix_builder(g_to_the_alpha, s_set)
+            matrix.append(matrix_row)
 
-            factored_g_alpha = factorint(g_to_the_alpha)  #factors smooth g_alpha into dict, appends to list
-            print ("Factored g_alpha is :", factored_g_alpha, "\n")
-            factored_primes.append(factored_g_alpha)
-
-            x_prime_factors = factorint(g_to_the_alpha)   #creates a dict, x_prime_factors, that contains all the prime factors of our smooth g ** a 
             vector_count += 1
 
 
