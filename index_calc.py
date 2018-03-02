@@ -62,7 +62,7 @@ def result_vector(matrix, vector, p):
 
 ### Inputs set of primes from 2 to b, and p - prime integer limit for random number generator
 
-def log_matrix(s_set, p, primtive_el):
+def log_matrix(s_set, p, primitive_el):
     s_cardinality = len(s_set)                            #boundary condition for our loop
     
     alpha_vector = []
@@ -71,7 +71,7 @@ def log_matrix(s_set, p, primtive_el):
 
     while vector_count != s_cardinality:
         alpha = random.randint(0, p)                      
-        g_to_the_alpha = (g ** alpha) % p
+        g_to_the_alpha = (primitive_el ** alpha) % p
 
         if is_smooth(g_to_the_alpha, s_set):
             #builds alpha vectors
@@ -82,30 +82,30 @@ def log_matrix(s_set, p, primtive_el):
             matrix.append(matrix_row)
 
             vector_count += 1
-
+    print ("Matrix before matrix check :\n", matrix)
     matrix = numpy.matrix(matrix)
 
+    
     if matrix_dep(matrix):
-        print ("Dependent Matrix found:\n", matrix)
         alpha_vector = []
-        matrix = log_matrix(s_set, p)
+        matrix = log_matrix(s_set, p, primitive_el)
 
+    print ("\n----------------------------------\n")
+    print ("Matrix after matrix check :\n", matrix)
 
     ### Print statements to see if the thing works
     #print("Now printing all coefficients of DLP's with primes <= b:\n",matrix)
     #print ("\nNow printing correspodning alpha vector:\n", alpha_vector)    
 
-    print ("Returning independent matrix of:\n", matrix)
-
-    alpha_vector = numpy.linalg.matrix(alpha_vector)
-    matrix_inv = numpy.linalg.inv(matrix)
-    re    
+    #alpha_vector = numpy.matrix(alpha_vector)
+    #matrix_inv = numpy.linalg.inv(matrix)
 
 
-def index_calculus(s_set, p, primtive_el):
+def index_calculus(s_set):
+    g = 11
     y = 8500
-    p = 9973
+    p = 31
     log_matrix(s_set, p, g)
     
 my_set = s_set(13)
-index_calculus(my_set, 31, 11)
+index_calculus(my_set)
