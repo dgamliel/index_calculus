@@ -42,6 +42,12 @@ def matrix_builder(g_to_the_alpha, s_set):
 
     return matrix_row
 
+### Verifies that our matrix det == 0 --> each row of our matrix is independent
+### Uses s_set to reset the loop condition to rebuild a set 
+def matrix_indep(in_matrix):
+    if numpy.linalg.det(in_matrix) == 0:
+        return False    
+    return True
 
 ### Inputs set of primes from 2 to b, and p - prime integer limit for random number generator
 
@@ -68,9 +74,15 @@ def log_calculator(s_set, p):
             vector_count += 1
 
     matrix = numpy.matrix(matrix)
+
+    if not matrix_indep(matrix):
+        matrix = log_calculator(s_set, p)
+
     print("Now printing all coefficients of DLP's with primes <= b:\n",matrix)
 
-    print ("\nNow printing correspodning alpha vector:\n", alpha_vector)        
+    print ("\nNow printing correspodning alpha vector:\n", alpha_vector)    
+
+    return matrix    
 
 
 def index_calculus(s_set, p):
