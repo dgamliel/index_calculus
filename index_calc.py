@@ -51,7 +51,15 @@ def matrix_dep(in_matrix):
 
 ### Inputs set of primes from 2 to b, and p - prime integer limit for random number generator
 
-def log_matrix(s_set, p):
+def result_vector(matrix, vector, p):
+    result_vector = matrix * vector
+    result_vector = list(result_vector)
+    for entry in result_vector:
+        entry = entry % p - 1
+
+    return result_vector
+
+def log_matrix(s_set, p, primtive_el):
     s_cardinality = len(s_set)                            #boundary condition for our loop
     
     alpha_vector = []
@@ -60,7 +68,6 @@ def log_matrix(s_set, p):
 
     while vector_count != s_cardinality:
         alpha = random.randint(0, p)                      
-        g = 11
         g_to_the_alpha = (g ** alpha) % p
 
         if is_smooth(g_to_the_alpha, s_set):
@@ -77,6 +84,7 @@ def log_matrix(s_set, p):
 
     if matrix_dep(matrix):
         print ("Dependent Matrix found:\n", matrix)
+        alpha_vector = []
         matrix = log_matrix(s_set, p)
 
 
@@ -86,11 +94,15 @@ def log_matrix(s_set, p):
 
     print ("Returning independent matrix of:\n", matrix)
 
-    return matrix    
+    alpha_vector = numpy.linalg.matrix(alpha_vector)
+    matrix_inv = numpy.linalg.inv(matrix)
+    re    
 
 
-def index_calculus(s_set, p):
-    log_matrix(s_set, p)
+def index_calculus(s_set, p, primtive_el):
+    y = 8500
+    p = 9973
+    log_matrix(s_set, p, g)
     
 my_set = s_set(13)
-index_calculus(my_set, 31)
+index_calculus(my_set, 31, 11)
