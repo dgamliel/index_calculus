@@ -30,7 +30,8 @@ def is_smooth(alpha, s_set):
 
 ### Creates individual rows of matrix, each index represents the coefficient of the DLP of each prime
 
-def matrix_builder(dict_of_factors, s_set):
+def matrix_builder(g_to_the_alpha, s_set):
+    dict_of_factors = factorint(g_to_the_alpha)
     matrix_row = []
     for prime in s_set:
         if prime not in dict_of_factors:
@@ -47,20 +48,29 @@ def matrix_builder(dict_of_factors, s_set):
 def log_calculator(s_set, p):
     s_cardinality = len(s_set)                            #boundary condition for our loop
     
+    alpha_vector = []
     matrix = []
-    factored_primes = []
     vector_count = 0
-    while vector_count != s_cardinality:
-        alpha = random.randint(0, p)                      #picks a random alpha to be used as exponent for primitive base
 
+    while vector_count != s_cardinality:
+        alpha = random.randint(0, p)                      
         g = 11
         g_to_the_alpha = (g ** alpha) % p
 
         if is_smooth(g_to_the_alpha, s_set):
+            #builds alpha vectors
+            alpha_vector.append(alpha)
+
+            #builds matrix of coefficients to small DLP's
             matrix_row = matrix_builder(g_to_the_alpha, s_set)
             matrix.append(matrix_row)
 
             vector_count += 1
+
+    matrix = numpy.matrix(matrix)
+    print("Now printing all coefficients of DLP's with primes <= b:\n",matrix)
+
+    print ("\nNow printing correspodning alpha vector:\n", alpha_vector)        
 
 
 def index_calculus(s_set, p):
