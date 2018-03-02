@@ -75,6 +75,7 @@ def log_matrix(s_set, p, primitive_el):
 
         if is_smooth(g_to_the_alpha, s_set):
             #builds alpha vectors
+            alpha = alpha % p - 1
             alpha_vector.append(alpha)
 
             #builds matrix of coefficients to small DLP's
@@ -82,24 +83,22 @@ def log_matrix(s_set, p, primitive_el):
             matrix.append(matrix_row)
 
             vector_count += 1
-    print ("Matrix before matrix check :\n", matrix)
+
     matrix = numpy.matrix(matrix)
 
     
     if matrix_dep(matrix):
-        alpha_vector = []
+        print ("Dependent matrix found")
+        #alpha_vector = []
         matrix = log_matrix(s_set, p, primitive_el)
 
-    print ("\n----------------------------------\n")
-    print ("Matrix after matrix check :\n", matrix)
+    elif matrix.any() == None:
+        print ("None Matrix found")
 
-    ### Print statements to see if the thing works
-    #print("Now printing all coefficients of DLP's with primes <= b:\n",matrix)
-    #print ("\nNow printing correspodning alpha vector:\n", alpha_vector)    
-
-    #alpha_vector = numpy.matrix(alpha_vector)
-    #matrix_inv = numpy.linalg.inv(matrix)
-
+    else:
+        print ("Independent Matrix found")
+        print ("\n", matrix)
+        return matrix
 
 def index_calculus(s_set):
     g = 11
