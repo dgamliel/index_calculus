@@ -49,7 +49,8 @@ def matrix_dep(in_matrix):
         return True    
     return False
 
-### Inputs set of primes from 2 to b, and p - prime integer limit for random number generator
+### Creates a resultant vector (list) of the values of the DL's for each prime, with a 1-1 index mapping
+### from our s_set --> result vector. Ex : since 2 == s_set[0] --> result_vector[0] == log_g(2) 
 
 def result_vector(matrix, vector, p):
     result_vector = matrix * vector
@@ -58,6 +59,8 @@ def result_vector(matrix, vector, p):
         entry = entry % p - 1
 
     return result_vector
+
+### Inputs set of primes from 2 to b, and p - prime integer limit for random number generator
 
 def log_matrix(s_set, p, primtive_el):
     s_cardinality = len(s_set)                            #boundary condition for our loop
