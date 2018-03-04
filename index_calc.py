@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import numpy
 from sympy import sieve, factorint
-import lin_alg
+import modular
 import random
 
 ### Returns the set of all primes from 2 to b ###
@@ -67,15 +67,15 @@ def log_values(in_tuple, p):
     for i in range(len(log_values)):
         log_values[i] = int(log_values[i])
         log_values[i] = log_values[i] % p - 1
-    print('Log values are : ', log_values)
+    #print('Log values are : ', log_values)
     return log_values
     
 
 def mod_inv_matrix(in_matrix, p):
-    co_factor_matrix = lin_alg.matrix_cofactor(in_matrix)
+    co_factor_matrix = modular.matrix_cofactor(in_matrix)
     co_factor_det    = int(numpy.linalg.det(co_factor_matrix))
     print ("Cofactor determinant is :", co_factor_det)
-    mod_inv          = lin_alg.modinv(co_factor_det, p)
+    mod_inv          = modular.modinv(co_factor_det, p)
 
     return_matrix    = mod_inv * co_factor_matrix
     print(return_matrix)

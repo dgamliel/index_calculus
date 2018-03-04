@@ -8,6 +8,7 @@ def egcd(a, b):
 
 def modinv(a, m):
     if a < 0:
+        print ("a is :", a)
         a = a + m
     g, x, y = egcd(a, m)
     if g != 1:
