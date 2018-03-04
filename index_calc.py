@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 import numpy
 from sympy import sieve, factorint
+import lin_alg
 import random
 
 ### Returns the set of all primes from 2 to b ###
 
 def s_set(b):
     prime_list = sieve.primerange(2, b+1)
+    # if primitive_el in prime_list:
+    #     g = prime_list.index(primitive_el)
+    #     del[g]
     return list(prime_list)
 
 ### Input: alpha - int ; s_set - list of prime numbers <= b
@@ -52,30 +56,51 @@ def matrix_dep(in_matrix):
 ### Creates a resultant vector (list) of the values of the DL's for each prime, with a 1-1 index mapping
 ### from our s_set --> result vector. Ex : since 2 == s_set[0] --> result_vector[0] == log_g(2) 
 
-def result_vector(matrix, vector, p):
-    result_vector = matrix * vector
-    result_vector = list(result_vector)
-    for entry in result_vector:
-        entry = entry % p - 1
+def log_values(in_tuple, p):
+    matrix = in_tuple[0]
+    alpha_vector = in_tuple[1]
+    matrix_inv = mod_inv_matrix(matrix, p-1)
+    log_values = matrix_inv * alpha_vector
 
-    return result_vector
+    return log_values
+    
 
-### Inputs set of primes from 2 to b, and p - prime integer limit for random number generator
+def mod_inv_matrix(in_matrix, p):
+    co_factor_matrix = lin_alg.matrix_cofactor(in_matrix)
+    co_factor_det = numpy.linalg.det(co_factor_matrix)
+
+    mod_inv = lin_alg.modinv(co_factor_det, p)
+
+    return_matrix  = mod_inv * co_factor_matrix
+    return return_matrix
+
+
+    
+### Inputs:
+#   s_set = set of primes from 2 to b
+#   p     = prime number modulus
+#   p_el  = primitive element of z_star; ususally our g in g ** alpha
 
 def log_matrix(s_set, p, primitive_el):
-    s_cardinality = len(s_set)                            #boundary condition for our loop
-    
-    alpha_vector = []
-    matrix = []
+
+    #defines loop conditions
+    s_cardinality = len(s_set)         
     vector_count = 0
 
+    #defines empty containers to make matrix and corresponding vectors
+    #return list should only have 2 indicies, r_l[0] == matrix, r_l[1] == corresponding alpha vectors
+    alpha_vector = []
+    matrix = []
+
     while vector_count != s_cardinality:
-        alpha = random.randint(0, p)                      
+
+        #generates random alpha 
+        #calculates g ^ alpha mod p
+        alpha = random.randint(1, p)                      
         g_to_the_alpha = (primitive_el ** alpha) % p
 
         if is_smooth(g_to_the_alpha, s_set):
             #builds alpha vectors
-            alpha = alpha % p - 1
             alpha_vector.append(alpha)
 
             #builds matrix of coefficients to small DLP's
@@ -86,25 +111,24 @@ def log_matrix(s_set, p, primitive_el):
 
     matrix = numpy.matrix(matrix)
 
+    return_tuple = (matrix, alpha_vector)
     
     if matrix_dep(matrix):
         print ("Dependent matrix found")
-        #alpha_vector = []
-        matrix = log_matrix(s_set, p, primitive_el)
-
-    elif matrix.any() == None:
-        print ("None Matrix found")
+        return log_matrix(s_set, p, primitive_el)
 
     else:
-        print ("Independent Matrix found")
-        print ("\n", matrix)
-        return matrix
+        print ("Independent matrix:\n", return_tuple[0])
+        return return_tuple
 
 def index_calculus(s_set):
-    g = 11
+    g = 5
     y = 8500
-    p = 31
-    log_matrix(s_set, p, g)
+    p = 37
+    equation = log_matrix(s_set, p, g)      # returns the A, b in Ax=b
+    list_log_vals = log_values(equation, p) # returns x = (A^-1)*b mod p
     
-my_set = s_set(13)
+
+
+my_set = s_set(3)
 index_calculus(my_set)
