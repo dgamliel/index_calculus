@@ -49,6 +49,7 @@ def matrix_builder(g_to_the_alpha, s_set):
 ### Verifies that our matrix det == 0 --> each row of our matrix is independent
 
 def matrix_dep(in_matrix):
+    print ("Matrix Determinant is :", numpy.linalg.det(in_matrix))
     if numpy.linalg.det(in_matrix) == 0:
         return True    
     return False
@@ -57,21 +58,27 @@ def matrix_dep(in_matrix):
 ### from our s_set --> result vector. Ex : since 2 == s_set[0] --> result_vector[0] == log_g(2) 
 
 def log_values(in_tuple, p):
-    matrix = in_tuple[0]
+    matrix       = in_tuple[0]
     alpha_vector = in_tuple[1]
-    matrix_inv = mod_inv_matrix(matrix, p-1)
-    log_values = matrix_inv * alpha_vector
+    matrix_inv   = mod_inv_matrix(matrix, p)
 
+    log_values   = matrix_inv.dot(alpha_vector)
+    log_values   = list(log_values)
+    for i in range(len(log_values)):
+        log_values[i] = int(log_values[i])
+        log_values[i] = log_values[i] % p - 1
+    print('Log values are : ', log_values)
     return log_values
     
 
 def mod_inv_matrix(in_matrix, p):
     co_factor_matrix = lin_alg.matrix_cofactor(in_matrix)
-    co_factor_det = numpy.linalg.det(co_factor_matrix)
+    co_factor_det    = int(numpy.linalg.det(co_factor_matrix))
+    print ("Cofactor determinant is :", co_factor_det)
+    mod_inv          = lin_alg.modinv(co_factor_det, p)
 
-    mod_inv = lin_alg.modinv(co_factor_det, p)
-
-    return_matrix  = mod_inv * co_factor_matrix
+    return_matrix    = mod_inv * co_factor_matrix
+    print(return_matrix)
     return return_matrix
 
 
@@ -126,7 +133,10 @@ def index_calculus(s_set):
     y = 8500
     p = 37
     equation = log_matrix(s_set, p, g)      # returns the A, b in Ax=b
-    list_log_vals = log_values(equation, p) # returns x = (A^-1)*b mod p
+    log_vals = log_values(equation, p) # returns x = (A^-1)*b mod p
+    list_log_vals = list(log_vals)
+    for item in list_log_vals:
+        item = item % p - 1
     
 
 
