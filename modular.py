@@ -10,7 +10,29 @@ def convert_neg(neg, p):
         neg = neg % p
         return p - neg
 
-###############################################
+#############################################
+#            MATRICIES AAAAAAA              #
+#############################################
+
+
+#Inputs : Numpy matrix - A, integer modulus p 
+#Output : Numpy matrix - A^-1 (A inverse)
+def create_inverse(in_matrix, p):
+    #returns (m, n) tuple of matrix with (m x n) dimmensions
+    x_dim, y_dim = in_matrix.shape()
+
+    #checks if the matrix is square, if not, exit
+    if x_dim != y_dim:
+        raise Exception("Non-square matrix is non-invertible")
+
+    #real code to create inverse
+    else:
+        identity_mat = np.identity(in_matrix_dimmension[0])
+        print(identity_mat)
+
+
+    
+    
 
 '''
 Stack overflow functions that implement basic number theory programs
@@ -49,3 +71,8 @@ def matrix_cofactor(matrix):
 test = convert_neg(-20, 101)
 modinv(-20, 101)
 modinv(test, 101)
+
+my_mat = np.matrix([[5, 3],
+                   [-3, 5]])
+
+create_inverse(my_mat, 101)
