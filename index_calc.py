@@ -49,8 +49,7 @@ def matrix_builder(g_to_the_alpha, s_set):
 ### Verifies that our matrix det == 0 --> each row of our matrix is independent
 
 def matrix_dep(in_matrix):
-    print ("Matrix Determinant is :", numpy.linalg.det(in_matrix))
-    if numpy.linalg.det(in_matrix) == 0:
+    if int(numpy.linalg.det(in_matrix)) == 0:
         return True    
     return False
 
@@ -74,11 +73,9 @@ def log_values(in_tuple, p):
 def mod_inv_matrix(in_matrix, p):
     co_factor_matrix = modular.matrix_cofactor(in_matrix)
     co_factor_det    = int(numpy.linalg.det(co_factor_matrix))
-    print ("Cofactor determinant is :", co_factor_det)
     mod_inv          = modular.modinv(co_factor_det, p)
 
     return_matrix    = mod_inv * co_factor_matrix
-    print(return_matrix)
     return return_matrix
 
 
@@ -121,11 +118,9 @@ def log_matrix(s_set, p, primitive_el):
     return_tuple = (matrix, alpha_vector)
     
     if matrix_dep(matrix):
-        print ("Dependent matrix found")
         return log_matrix(s_set, p, primitive_el)
 
     else:
-        print ("Independent matrix:\n", return_tuple[0])
         return return_tuple
 
 def index_calculus(s_set):
