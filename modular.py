@@ -1,4 +1,21 @@
 import numpy as np
+
+'''
+These are the functions that I personally wrote and tested 
+'''
+#inputs a negative number and modulus p. Converts negative to corresponding positive value in mod p space
+def convert_neg(neg, p):
+    if neg < 0:
+        neg = abs(neg)
+        neg = neg % p
+        return p - neg
+
+###############################################
+
+'''
+Stack overflow functions that implement basic number theory programs
+'''
+
 def egcd(a, b):
     if a == 0:
         return (b, 0, 1)
@@ -15,14 +32,7 @@ def modinv(a, m):
     else:
         return x % m
 
-def convert_neg(neg, p):
-    if neg < 0:
-        neg = abs(neg)
-        neg = neg % p
-        return p - neg
-
-
-# Runs in O(n^3) runtime, thank you based Stack Overflow
+### Runs in O(n^3) runtime, thank you based Stack Overflow
 def matrix_cofactor(matrix):
     C = np.zeros(matrix.shape)
     nrows, ncols = C.shape
@@ -35,6 +45,7 @@ def matrix_cofactor(matrix):
 
 
 ### ---------- TESTING ---------- ###
+
 test = convert_neg(-20, 101)
 modinv(-20, 101)
 modinv(test, 101)
