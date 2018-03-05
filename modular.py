@@ -7,20 +7,18 @@ def egcd(a, b):
         return (g, x - (b // a) * y, y)
 
 def modinv(a, m):
-    while a < 0:
-        print("a is :", a)
-        a = a + m
+    if a < 0:
+        a = convert_neg(a, m)
     g, x, y = egcd(a, m)
     if g != 1:
         raise Exception('modular inverse does not exist')
     else:
-        print(x % m)
         return x % m
 
 def convert_neg(neg, p):
     if neg < 0:
         neg = abs(neg)
-        print("Converted negative is :", p - neg)
+        neg = neg % p
         return p - neg
 
 
