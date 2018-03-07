@@ -19,7 +19,7 @@ def convert_neg(neg, p):
 #Output : Numpy matrix - A^-1 (A inverse)
 def create_inverse(in_matrix, p):
     #returns (m, n) tuple of matrix with (m x n) dimmensions
-    x_dim, y_dim = in_matrix.shape()
+    x_dim, y_dim = in_matrix.shape
 
     #checks if the matrix is square, if not, exit
     if x_dim != y_dim:
@@ -27,12 +27,20 @@ def create_inverse(in_matrix, p):
 
     #real code to create inverse
     else:
-        identity_mat = np.identity(in_matrix_dimmension[0])
-        print(identity_mat)
+        identity_mat = np.identity(x_dim)
+        
+        for x in range(x_dim):
+            diagonal = in_matrix[x, x]
+
+            #find mod inverse to 
+            scalar = modinv(diagonal, p)
+            
+            in_matrix[x] = (in_matrix[x] * scalar) % p
+            identity_mat[x] = (identity_mat[x] * scalar) % p
+            print (in_matrix[x])
 
 
-    
-    
+        
 
 '''
 Stack overflow functions that implement basic number theory programs
@@ -68,9 +76,9 @@ def matrix_cofactor(matrix):
 
 ### ---------- TESTING ---------- ###
 
-test = convert_neg(-20, 101)
-modinv(-20, 101)
-modinv(test, 101)
+# test = convert_neg(-20, 101)
+# modinv(-20, 101)
+# modinv(test, 101)
 
 my_mat = np.matrix([[5, 3],
                    [-3, 5]])
