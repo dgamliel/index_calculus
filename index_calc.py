@@ -66,17 +66,12 @@ def log_values(in_tuple, p):
     for i in range(len(log_values)):
         log_values[i] = int(log_values[i])
         log_values[i] = log_values[i] % p - 1
-    #print('Log values are : ', log_values)
+    #('Log values are : ', log_values)
     return log_values
     
-
+#TODO: Use Brian's correct implementation
 def mod_inv_matrix(in_matrix, p):
-    co_factor_matrix = modular.matrix_cofactor(in_matrix)
-    co_factor_det    = int(numpy.linalg.det(co_factor_matrix))
-    mod_inv          = modular.modinv(co_factor_det, p)
-
-    return_matrix    = mod_inv * co_factor_matrix
-    return return_matrix
+    return in_matrix
 
 
     
